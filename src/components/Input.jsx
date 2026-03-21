@@ -1,6 +1,7 @@
+import { generateMnemonic } from "bip39";
 import React from "react";
 
-function Input() {
+function Input({setMne}) {
   return (
     <div>
       <div className="py-16 dark:text-white text-black  ">
@@ -20,7 +21,13 @@ function Input() {
           name=""
           id=""
         />
-        <button className="bg-black text-white dark:text-black dark:bg-white hover:cursor-pointer px-2 py-2 rounded">
+        <button
+          onClick={() => {
+            const m = generateMnemonic();
+            setMne(m);
+          }}
+          className="bg-black text-white dark:text-black  hover:bg-white dark:bg-gray-200 transition-all duration-300 hover:cursor-pointer  px-2 py-2 rounded"
+        >
           Generate Wallet
         </button>
       </div>

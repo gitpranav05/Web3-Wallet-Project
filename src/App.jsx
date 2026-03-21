@@ -1,6 +1,7 @@
-import MainLayout from "./ui/MainLayout";
+  import MainLayout from "./ui/MainLayout";
 
 function App() {
+  
 
   return(
     <div className="dark:bg-black dark:text-white text-black bg-white h-screen ">
