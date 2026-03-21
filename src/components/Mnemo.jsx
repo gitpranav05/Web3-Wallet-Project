@@ -6,6 +6,7 @@ import { Toaster } from "react-hot-toast";
 
 function Mnemo({   mne }) {
   const [open, setOpen] = useState(false);
+  const words = mne.split(" ");
   
   function handleCopy() {
     if (navigator.clipboard && window.isSecureContext) {
@@ -39,15 +40,20 @@ function Mnemo({   mne }) {
         <h1>
           {open ? "Do not share this phrase with anyone" : "Your Secret Phrase"}
         </h1>
-        <button
-          className="hover:cursor-pointer hover:bg-gray-600 px-2 py-2 rounded transition-all duration-300"
-        >
+        <button className="hover:cursor-pointer hover:bg-gray-600 px-2 py-2 rounded transition-all duration-300">
           {open ? <FaCaretUp /> : <FaCaretDown />}
         </button>
       </div>
       {open && (
-        <div className="py-20" onClick={handleCopy}>
-          <h1>Click anywhere to copy </h1>
+        <div
+          onClick={handleCopy}
+          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6 cursor-pointer"
+        >
+          {words.map((word, i) => (
+            <div key={i} className="bg-gray-800 p-3 rounded-md">
+              {word}
+            </div>
+          ))}
         </div>
       )}
     </div>
