@@ -1,13 +1,13 @@
-  import MainLayout from "./ui/MainLayout";
+import MainLayout from "./ui/MainLayout";
+import { Toaster } from "react-hot-toast";
 
 function App() {
-  
-
-  return(
+  return (
     <div className="dark:bg-black dark:text-white text-black bg-white h-screen ">
-      <MainLayout/>
+      <Toaster position="bottom-right" />
+      <MainLayout />
     </div>
   );
 }
 
-export default App
+export default App;

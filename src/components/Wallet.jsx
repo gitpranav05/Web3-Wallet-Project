@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Wallet({setMne, mne}) {
+function Wallet({setMne}) {
   return (
     <div className="py-6">
       <div className="flex justify-between">
