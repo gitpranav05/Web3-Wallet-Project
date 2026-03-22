@@ -1,13 +1,28 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { FaCaretDown, FaCaretUp } from "react-icons/fa";
-import { Toaster } from "react-hot-toast";
+import { FaCaretDown, FaCaretUp, FaRegCopy } from "react-icons/fa";
 
 
-function Mnemo({   mne }) {
+function Mnemo({ setMne, mne }) {
   const [open, setOpen] = useState(false);
-  const words = mne.split(" ");
-  
+  const [words, setWords] = useState([]);
+
+  useEffect(()=>{
+    if(mne){
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setWords(mne.split(" "));
+    }
+    else{
+      const stored = localStorage.getItem("mnemonic");
+      if(stored){
+        const parsed = JSON.parse(stored);
+        setWords(parsed);
+        setMne(parsed.join(" "))
+      }
+      
+    }
+  }, [mne,setMne])
+
   function handleCopy() {
     if (navigator.clipboard && window.isSecureContext) {
       navigator.clipboard.writeText(mne);
@@ -30,7 +45,7 @@ function Mnemo({   mne }) {
 
     toast.success("Copied to clipboard!");
   }
-  
+
   return (
     <div className="bg-gray-900 rounded-xl p-6 text-white ">
       <div
@@ -54,6 +69,10 @@ function Mnemo({   mne }) {
               {word}
             </div>
           ))}
+          <div className="flex gap-1 ">
+            <FaRegCopy className="flex my-0.5" />
+            <h1 className="">Click anywhere to copy</h1>
+          </div>
         </div>
       )}
     </div>

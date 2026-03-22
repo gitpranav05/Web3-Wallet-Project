@@ -6,11 +6,13 @@ import WalletLayout from './WalletLayout';
 
 function MainLayout() {
   const [mne, setMne] = useState("");
+  const mnemonic=localStorage.getItem("mnemonic");
+
   
   return (
     <div className="max-w-6xl mx-auto px-6 md:px-12 ">
       <Navbar />
-      {mne?<WalletLayout mne={mne} setMne={setMne}/>:<Input setMne={setMne}/>}
+      {mnemonic?<WalletLayout mne={mne} setMne={setMne}/>:<Input setMne={setMne}/>}
     </div>
   );
 }

@@ -1,10 +1,32 @@
 import { generateMnemonic } from "bip39";
-import React from "react";
+import React, { useState } from "react";
+import toast from "react-hot-toast";
 
-function Input({setMne}) {
+function Input({ setMne }) {
+  const [inputValue, setInputValue] = useState("");
+
+  const handleGenerate = () => {
+    let m;
+
+    if (inputValue.trim() !== "") {
+      // ✅ Use user-entered mnemonic
+      m = inputValue.trim();
+      toast.success("Using entered mnemonic!");
+    } else {
+      // ✅ Generate new mnemonic
+      m = generateMnemonic();
+      toast.success("New mnemonic generated!");
+    }
+
+    setMne(m);
+
+    const mnemonicArray = m.split(" ");
+    localStorage.setItem("mnemonic", JSON.stringify(mnemonicArray));
+  };
+
   return (
     <div>
-      <div className="py-16 dark:text-white text-black  ">
+      <div className="py-16 dark:text-white text-black">
         <h1 className="text-4xl md:text-6xl font-semibold">
           Secret Recovery Phrase
         </h1>
@@ -12,21 +34,21 @@ function Input({setMne}) {
           Save these words in a safe place
         </h1>
       </div>
-      <div className="  flex flex-col sm:flex-row  justify-between gap-2 ">
-        {/* //INPUT and Button */}
+
+      <div className="flex flex-col sm:flex-row justify-between gap-2">
+        {/* INPUT */}
         <input
-          className="text-white-500 flex-1 py-2 px-2 rounded dark:focus:outline-white focus:outline-black  outline-1 "
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          className="flex-1 py-2 px-2 rounded outline-1 dark:focus:outline-white focus:outline-black"
           placeholder="Enter your secret phrase (or leave blank to generate)"
           type="text"
-          name=""
-          id=""
         />
+
+        {/* BUTTON */}
         <button
-          onClick={() => {
-            const m = generateMnemonic();
-            setMne(m);
-          }}
-          className="bg-black text-white dark:text-black  hover:bg-white dark:bg-gray-200 transition-all duration-300 hover:cursor-pointer  px-2 py-2 rounded"
+          onClick={handleGenerate}
+          className="bg-black text-white hover:bg-gray-800 px-2 py-2 rounded"
         >
           Generate Wallet
         </button>

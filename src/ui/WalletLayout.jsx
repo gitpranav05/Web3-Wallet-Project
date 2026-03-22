@@ -9,8 +9,9 @@ import Wallet from '../components/Wallet';
 function WalletLayout({setMne,mne}) {
   return (
     <div>
-      <Mnemo  mne={mne}/>
-      <Wallet setMne={setMne}/>
+      <Mnemo setMne={setMne} mne={mne} />
+      <Wallet setMne={setMne} mne={mne}/>
+      
     </div>
   );
 }
