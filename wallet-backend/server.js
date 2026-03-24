@@ -8,7 +8,13 @@ import cors from "cors";
 const app = express();
 
 // ✅ CORS (you can restrict later)
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://web3-wallet-project.vercel.app/", // your frontend URL
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true, // if using cookies / auth
+  }),
+);
 app.use(express.json());
 
 // ✅ Health check route (important for Railway)
