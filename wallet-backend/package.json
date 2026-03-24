@@ -1,23 +1,20 @@
 {
   "name": "wallet-backend",
   "version": "1.0.0",
-  "description": "",
   "type": "module",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "@solana/web3.js": "^1.98.4",
     "bip39": "^3.1.0",
     "bs58": "^6.0.0",
     "cors": "^2.8.6",
     "ed25519-hd-key": "^1.3.0",
-    "express": "^5.2.1",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
     "nodemon": "^3.1.14"
   }
 }
