@@ -32,7 +32,7 @@ function Navbar() {
   return (
     <div className="  py-4 flex justify-between">
       <div className="flex gap-4 text-[#f4409e]">
-        <h1 className="text-5xl flex gap-5 font-bold">Arohi </h1>
+        <h1 className="text-5xl flex gap-5 font-bold">Aas-3 </h1>
         <div className="text-2xl  py-4.5 ">
           <FaWallet />
         </div>
