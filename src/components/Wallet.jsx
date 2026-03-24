@@ -4,8 +4,9 @@ import toast from "react-hot-toast";
 function Wallet({ setMne }) {
   const [wallets, setWallets] = useState([]);
 
-  const mnemonic =
-    "wage giraffe private vanish amazing print tip scrap live resource impact vapor";
+  const resp = JSON.parse(localStorage.getItem("mnemonic"));
+
+  const mnemonic = resp.join(" ");
 
   // ✅ Load wallets on mount
   useEffect(() => {
