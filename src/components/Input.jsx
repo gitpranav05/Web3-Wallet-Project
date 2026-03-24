@@ -9,11 +9,9 @@ function Input({ setMne }) {
     let m;
 
     if (inputValue.trim() !== "") {
-      // ✅ Use user-entered mnemonic
       m = inputValue.trim();
       toast.success("Using entered mnemonic!");
     } else {
-      // ✅ Generate new mnemonic
       m = generateMnemonic();
       toast.success("New mnemonic generated!");
     }
@@ -48,7 +46,7 @@ function Input({ setMne }) {
         {/* BUTTON */}
         <button
           onClick={handleGenerate}
-          className="bg-black text-white hover:bg-gray-800 px-2 py-2 rounded"
+          className="bg-black text-white dark:hover:bg-amber-50 dark:text-black  hover:bg-gray-800 hover: dark:bg-gray-200 transition-all duration-300 hover:cursor-pointer  px-2 py-2 rounded"
         >
           Generate Wallet
         </button>

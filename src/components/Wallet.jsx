@@ -1,106 +1,106 @@
-import { mnemonicToSeedSync } from "bip39";
-import { derivePath } from "ed25519-hd-key";
-import { Keypair } from "@solana/web3.js";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useEffect, useState } from "react";
 
-
-
-function Wallet({ mne, setMne }) {
+function Wallet({ setMne }) {
   const [wallets, setWallets] = useState([]);
 
-  // ---------------- LOAD ----------------
+  const mnemonic =
+    "wage giraffe private vanish amazing print tip scrap live resource impact vapor";
+
+  // ✅ Load wallets on mount
   useEffect(() => {
-    const stored = localStorage.getItem("wallets");
-    if (stored) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setWallets(JSON.parse(stored));
+    const storedWallets = localStorage.getItem("wallets");
+    if (storedWallets) {
+      setWallets(JSON.parse(storedWallets));
     }
   }, []);
 
-  // ---------------- GENERATE ----------------
-  const handleAddWallet = () => {
-    if (!mne) {
-      toast.error("Mnemonic not found!");
+  // ✅ Save wallets whenever they change
+  useEffect(() => {
+    localStorage.setItem("wallets", JSON.stringify(wallets));
+  }, [wallets]);
+
+  async function handleAddWallet() {
+    if (!mnemonic) {
+      toast.error("No mnemonic found!");
       return;
     }
 
     try {
-      const seed = mnemonicToSeedSync(mne);
-      const index = wallets.length;
+      const res = await fetch("http://localhost:3000/generate-wallet", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          mnemonic,
+          index: wallets.length,
+        }),
+      });
 
-      // ✅ REAL SOLANA PATH
-      const path = `m/44'/501'/${index}'/0'`;
+      const data = await res.json();
 
-      const derivedSeed = derivePath(path, seed.toString("hex")).key;
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to generate wallet");
+      }
 
-      const keypair = Keypair.fromSeed(derivedSeed.slice(0, 32));
+      // ✅ Add new wallet
+      setWallets((prev) => [...prev, data]);
 
-      const newWallet = {
-        publicKey: keypair.publicKey.toBase58(),
-        // eslint-disable-next-line no-undef
-        privateKey: Buffer.from(keypair.secretKey).toString("hex"),
-      };
-
-      const updated = [...wallets, newWallet];
-
-      setWallets(updated);
-      localStorage.setItem("wallets", JSON.stringify(updated));
-
-      toast.success(`Wallet ${index + 1} created!`);
+      toast.success("Wallet added!");
     } catch (err) {
       console.error(err);
-      toast.error("Error generating wallet");
+      toast.error("Something went wrong!");
     }
-  };
+  }
 
-  // ---------------- CLEAR ----------------
-  const handleClearWallet = () => {
-    setWallets([]);
+  function handleClearWallets() {
     setMne("");
-    localStorage.removeItem("wallets");
+    setWallets([]);
+    localStorage.removeItem("wallets"); // ✅ remove stored wallets
     localStorage.removeItem("mnemonic");
     toast.error("Wallets deleted!");
-  };
+  }
 
   return (
     <div className="py-6">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between">
         <h1 className="text-3xl font-bold">Solana Wallet</h1>
 
         <div className="flex gap-2">
           <button
             onClick={handleAddWallet}
-            className="bg-black text-white hover:bg-gray-800 px-3 py-2 rounded"
+            className="bg-black text-white dark:hover:bg-amber-50 dark:text-black  hover:bg-gray-800 hover: dark:bg-gray-200 transition-all duration-300 hover:cursor-pointer  px-2 py-2 rounded"
           >
-            Generate Wallet
+            Add Wallet
           </button>
 
           <button
-            onClick={handleClearWallet}
-            className="bg-red-900 hover:bg-red-500 text-white px-3 py-2 rounded"
+            onClick={handleClearWallets}
+            className="bg-red-900 hover:bg-red-500 text-white rounded p-2"
           >
-            Clear
+            Clear Wallets
           </button>
         </div>
       </div>
 
-      {/* WALLETS */}
-      <div className="mt-6 flex flex-col gap-4">
-        {wallets.length === 0 && (
-          <p className="text-gray-500">No wallets created</p>
-        )}
-
-        {wallets.map((wallet, i) => (
-          <div key={i} className="p-4 bg-gray-800 text-white rounded-2xl">
-            <p className="font-bold mb-2">Wallet {i + 1}</p>
-
-            <p className="break-all text-sm">
-              <b>Public Key:</b> {wallet.publicKey}
+      {/* 🔥 Wallet UI */}
+      <div className="mt-6 space-y-4">
+        {wallets.map((wallet, index) => (
+          <div
+            key={index}
+            className="p-4 bg-gray-800 rounded-xl shadow text-white"
+          >
+            <p className="text-sm">
+              <strong>Wallet {index + 1}</strong>
             </p>
 
-            <p className="break-all text-sm mt-2">
-              <b>Private Key:</b> {wallet.privateKey}
+            <p className="text-sm break-all">
+              <strong>Public Key:</strong> {wallet.publicKey}
+            </p>
+
+            <p className="text-sm break-all">
+              <strong>Private Key:</strong> {wallet.privateKey}
             </p>
           </div>
         ))}
