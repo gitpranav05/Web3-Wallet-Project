@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 function Wallet({ setMne }) {
   const [wallets, setWallets] = useState([]);
@@ -28,7 +29,7 @@ function Wallet({ setMne }) {
     }
 
     try {
-      const res = await fetch("http://localhost:3000/generate-wallet", {
+      const res = await fetch(`${BASE_URL}/generate-wallet`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
