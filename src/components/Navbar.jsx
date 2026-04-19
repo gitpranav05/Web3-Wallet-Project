@@ -42,7 +42,7 @@ function Navbar() {
           onClick={() => {
             setDarkMode(!darkMode);
           }}
-          className="text-3xl py-2 dark:text-white text-black  hover:cursor-pointer"
+          className="text-3xl py-2 dark:text-white text-black transition-all duration-500 hover:cursor-pointer"
         >
           {darkMode ? <CiLight /> : <CiDark />}
         </button>

@@ -65,7 +65,7 @@ function Mnemo({ setMne, mne }) {
           className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6 cursor-pointer"
         >
           {words.map((word, i) => (
-            <div key={i} className="bg-gray-800 p-3 rounded-md">
+            <div key={i} className="bg-gray-800 p-3 rounded-md hover:bg-gray-700 transition-all duration-200">
               {word}
             </div>
           ))}
