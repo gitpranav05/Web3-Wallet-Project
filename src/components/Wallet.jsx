@@ -79,7 +79,7 @@ function Wallet({ setMne }) {
 
           <button
             onClick={handleClearWallets}
-            className="bg-red-900 hover:bg-red-500 text-white rounded p-2"
+            className="bg-red-900 hover:bg-red-500 transition-all duration-300 hover:cursor-pointer text-white rounded p-2"
           >
             Clear Wallets
           </button>
